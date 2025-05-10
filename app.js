@@ -1,7 +1,17 @@
-import books from "./books.js"
-import users from "./users.js"
+
 import booksRouter from './routes/book.route.js';
 import usersRouter from './routes/user.route.js';
+import {addCurrentDate} from './middlewares/middlewareAddDate.js';
+import { printDate } from "./middlewares/middlewarePrintDate.js";
+import { blockServer } from "./middlewares/middlewareBlock.js";
+import { notFound } from "./middlewares/middlewareError.js";
+import { errorHandler } from "./middlewares/middlewareError.js";
+import cors from 'cors';
+// import {config} from 'dotenv';
+// config();
+import morgan from "morgan";
+
+
 
 // 1. ייבוא
 import express from 'express';
@@ -15,11 +25,20 @@ app.use(express.json());
 // מאפשר לקבל באדי מתוך טופס
 app.use(express.urlencoded({ extended: true }));
 
+app.use(morgan('dev'));
+
+
+app.use(cors());
 // 3. טיפול בניתובים
 
-
+app.use(addCurrentDate)
+app.use(printDate)
+app.use(blockServer)
 app.use('/books', booksRouter);
 app.use('/users', usersRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 
 // let i = 6;
