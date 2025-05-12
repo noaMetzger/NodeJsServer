@@ -21,5 +21,7 @@ export const errorHandler = (err, req, res, next) => {
     // ארבעה פרמטרים - הפרמטר הראשון הוא השגיאה
     const status = err.status ?? 500;
     const msg = err.message ?? 'Server Error';
-    res.status(status).json({ error: msg, fixMail: 'fix@gmail.com' }); // { error: { message } }
+    res.status(status).json({ error: msg }); // { error: { message } }
 };
+
+

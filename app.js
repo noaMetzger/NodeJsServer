@@ -7,11 +7,13 @@ import { blockServer } from "./middlewares/middlewareBlock.js";
 import { notFound } from "./middlewares/middlewareError.js";
 import { errorHandler } from "./middlewares/middlewareError.js";
 import cors from 'cors';
-// import {config} from 'dotenv';
-// config();
+import {config} from 'dotenv';
+import { connectDB } from './config/db.js';
 import morgan from "morgan";
 
+config();
 
+connectDB();
 
 // 1. ייבוא
 import express from 'express';
