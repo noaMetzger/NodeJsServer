@@ -1,51 +1,22 @@
-import users from "../users.js"
-
+import { getAllUsers, login, register, deleteUser, updateUser }    from "../controllers/user.controller.js";
 import { Router } from "express";
+import { auth, authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-let i = 6;
-router.post('/login', (req, res, next) => {
-    try {
-        const { name, pass } = req.body;
-        const user = users.find(x => x.name == name && x.pass == pass);
-        if (user)
-            res.status(200).json(user);
-        else
-            res.status(400).send("error not exist");
-    }
-    catch (error) {
-        next({ message: error.message });
-    }
+// get all
+router.get('/',auth, authAdmin, getAllUsers);
 
-});
+// get by id
+router.post('/', register);
 
-router.post('/register', (req, res, next) => {
-    try {
-        const { name, pass } = req.body;
-        const user = users.find(x => x.name == name && x.pass == pass);
-        if (user)
-            res.status(400).send("error exist already");
-        else {
-            users.push({ id: i, name, pass });
-            i++;
-            res.status(200).json(users);
-        }
-    }
-    catch (error) {
-        next({ message: error.message });
-    }
+// add
+router.post('/login', login);
 
-});
+// update
+router.put('/:id', auth, updateUser);
+
+// delete
+router.delete('/:id',auth, deleteUser);
 
 export default router;
-
-
-
-
-
-
-
-
-
-
